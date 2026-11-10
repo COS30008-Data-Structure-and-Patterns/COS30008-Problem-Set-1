@@ -84,3 +84,9 @@ Testing/
 *.xlsx
 *.ppt
 *.pptx
+
+# Visual Studio generated build directories
+x64/
+x86/
+Debug/
+Release/
