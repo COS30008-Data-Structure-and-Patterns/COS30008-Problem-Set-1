@@ -8,6 +8,7 @@
 COS30008-Problem-Set-1/
 ├── include/                 Entity 和迭代器的头文件
 ├── src/                     C++ 源文件和 main 程序入口
+├── CMakeLists.txt            多 IDE 共用的 CMake 构建配置
 ├── COS30008 Problem Set 1.sln
 ├── COS30008 Problem Set 1.vcxproj
 ├── .gitignore
@@ -28,19 +29,19 @@ cd COS30008-Problem-Set-1
 
 ## 编译和运行
 
-这是一个 C++17 控制台程序，不依赖第三方库。编译 `src/` 下的四个 `.cpp` 文件，并将 `include/` 加入头文件搜索路径。
+这是一个 C++17 控制台程序，不依赖第三方库。根目录的 `CMakeLists.txt` 是 VS Code、CLion 和 Visual Studio 共用的构建配置，负责编译 `src/` 下的四个 `.cpp` 文件并添加 `include/` 头文件路径。
 
 ### Visual Studio 2022
 
-1. 安装 **使用 C++ 的桌面开发** 工作负载。
-2. 打开 `COS30008 Problem Set 1.sln`。
-3. 选择 **Debug** 和 **x64**，然后生成并按 **Ctrl+F5** 运行。
+1. 在 Visual Studio Installer 中安装 **使用 C++ 的桌面开发** 工作负载和 CMake 工具。
+2. 在 Visual Studio 中选择 **文件 → 打开 → 文件夹**，打开克隆后的项目目录（包含 `CMakeLists.txt` 的目录）。
+3. 在工具栏选择可用的 MSVC x64 CMake 配置，然后生成并运行 `problem-set-1` 目标。
 
-项目当前指定平台工具集 `v145`。如果你的 Visual Studio 2022 未安装该工具集，可在 **项目属性 → 常规 → 平台工具集** 中选择已安装的工具集，或安装对应工具集。克隆后请保持解决方案和项目文件位于同一目录。
+此 CMake 工作流使用 Visual Studio 安装的编译器和工具集，不依赖独立 `.sln` 项目指定的 `v145` 工具集。
 
 ### VS Code
 
-安装 VS Code、**C/C++** 扩展和 C++17 编译器。Windows 下可使用 MSYS2 UCRT64 GCC：从 MSYS2 安装后，将其 `bin` 目录加入 `PATH`。在 VS Code 中打开克隆的项目目录，然后在集成终端运行：
+安装 VS Code、**C/C++** 和 **CMake Tools** 扩展、CMake 3.20 或更新版本，以及 C++17 编译器。Windows 下可使用 MSYS2 UCRT64 GCC：从 MSYS2 安装后，将其 `bin` 目录加入 `PATH`。打开克隆的项目目录，通过 CMake 状态栏选择工具链、配置、生成并运行 `problem-set-1` 目标。也可以在集成终端直接编译：
 
 ```bash
 g++ -std=c++17 -Wall -Wextra -I include src/main.cpp src/Entity.cpp src/Iterator1D.cpp src/Iterator2D.cpp -o problem-set-1
@@ -72,26 +73,7 @@ problem-set-1.exe
 
 ### CLion
 
-CLion 使用 CMake 加载 C++ 项目。在项目根目录新建 `CMakeLists.txt`，内容如下：
-
-```cmake
-cmake_minimum_required(VERSION 3.20)
-project(COS30008_Problem_Set_1 LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(problem-set-1
-    src/main.cpp
-    src/Entity.cpp
-    src/Iterator1D.cpp
-    src/Iterator2D.cpp
-)
-
-target_include_directories(problem-set-1 PRIVATE include)
-```
-
-在 CLion 中打开项目目录，选择已配置的 C++ 工具链（MSVC、MinGW、GCC 或 Clang），等待 CMake 重新加载，然后构建并运行 `problem-set-1`。仓库目前没有包含此 CMake 文件；使用 CLion 时需要在本地添加。
+在 CLion 中打开克隆后的项目目录。CLion 会自动识别根目录的 `CMakeLists.txt`；选择已配置的 C++ 工具链（MSVC、MinGW、GCC 或 Clang），等待 CMake 重新加载，然后构建并运行 `problem-set-1`。
 
 ## 控制台命令
 

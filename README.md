@@ -8,6 +8,7 @@
 COS30008-Problem-Set-1/
 ├── include/                 Header files for Entity and iterators
 ├── src/                     C++ source files and main entry point
+├── CMakeLists.txt            Shared CMake build configuration
 ├── COS30008 Problem Set 1.sln
 ├── COS30008 Problem Set 1.vcxproj
 ├── .gitignore
@@ -28,19 +29,19 @@ cd COS30008-Problem-Set-1
 
 ## Build and run
 
-This is a C++17 console application with no third-party libraries. Build the four `.cpp` files under `src/` and add `include/` to the compiler's header search path.
+This is a C++17 console application with no third-party libraries. The root `CMakeLists.txt` is the shared build configuration used by VS Code, CLion and Visual Studio. It compiles the four `.cpp` files under `src/` and adds `include/` to the header search path.
 
 ### Visual Studio 2022
 
-1. Install the **Desktop development with C++** workload.
-2. Open `COS30008 Problem Set 1.sln`.
-3. Select **Debug** and **x64**, then build and run with **Ctrl+F5**.
+1. Install the **Desktop development with C++** workload and CMake tools in Visual Studio Installer.
+2. In Visual Studio, select **File → Open → Folder** and open the cloned project folder (the folder containing `CMakeLists.txt`).
+3. Select an available MSVC x64 CMake configuration in the toolbar, then build and run the `problem-set-1` target.
 
-The project currently specifies platform toolset `v145`. If that toolset is not installed in your Visual Studio 2022 installation, open **Project Properties → General → Platform Toolset** and select an installed toolset, or install the matching toolset. Keep the solution's project files together when cloning.
+This CMake workflow uses the compiler/toolset installed with Visual Studio and does not depend on the separate `.sln` project's `v145` toolset setting.
 
 ### VS Code
 
-Install VS Code, the **C/C++** extension, and a C++17 compiler. For Windows, MSYS2 UCRT64 GCC is one option; install it from MSYS2 and ensure its `bin` directory is on `PATH`. Open the cloned project folder in VS Code and run this command in the integrated terminal:
+Install VS Code, the **C/C++** and **CMake Tools** extensions, CMake 3.20 or newer, and a C++17 compiler. For Windows, MSYS2 UCRT64 GCC is one option; install it from MSYS2 and ensure its `bin` directory is on `PATH`. Open the cloned project folder and use the CMake status bar to select a kit, configure, build and run the `problem-set-1` target. Alternatively, build from the integrated terminal:
 
 ```bash
 g++ -std=c++17 -Wall -Wextra -I include src/main.cpp src/Entity.cpp src/Iterator1D.cpp src/Iterator2D.cpp -o problem-set-1
@@ -72,26 +73,7 @@ problem-set-1.exe
 
 ### CLion
 
-CLion uses CMake to load C++ projects. Create a `CMakeLists.txt` in the project root with the following content:
-
-```cmake
-cmake_minimum_required(VERSION 3.20)
-project(COS30008_Problem_Set_1 LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_executable(problem-set-1
-    src/main.cpp
-    src/Entity.cpp
-    src/Iterator1D.cpp
-    src/Iterator2D.cpp
-)
-
-target_include_directories(problem-set-1 PRIVATE include)
-```
-
-Open the project folder in CLion, select a configured C++ toolchain (MSVC, MinGW, or GCC/Clang), allow CMake to reload, then build and run the `problem-set-1` target. The repository does not currently include this CMake file; add it locally if you want to use CLion.
+Open the cloned project folder in CLion. CLion detects the root `CMakeLists.txt`; select a configured C++ toolchain (MSVC, MinGW, or GCC/Clang), allow CMake to reload, then build and run the `problem-set-1` target.
 
 ## Console commands
 
